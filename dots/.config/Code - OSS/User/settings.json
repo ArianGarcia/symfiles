@@ -1,0 +1,7 @@
+{
+    "workbench.colorTheme": "Dracula",
+    "todo-tree.tree.showScanModeButton": false,
+    "workbench.iconTheme": "vscode-icons",
+    "files.autoSave": "afterDelay",
+    "javascript.updateImportsOnFileMove.enabled": "always"
+}
