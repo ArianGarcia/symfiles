@@ -23,12 +23,11 @@ alert = #CC2F44
 ; #      #
 ; ########
 
-;{{{ bar/main
+;{{{ bar/base
 
-[bar/main]
-monitor = ${env:MONITOR:eDP-1-1}
+[bar/base]
 width = 100%
-height = 30
+height = 35
 fixed-center = true
 
 background = ${colors.background}
@@ -48,20 +47,36 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = siji:pixelsize=12;1
-font-1 = FuraCode Nerd Font:pixelsize=10;1
-font-2 = Noto Color Emoji:pixelsize=4
-font-3 = FontAwesome5Free:style=Solid:size=10 
+font-0 = siji:pixelsize=12
+font-1 = FuraCode Nerd Font:size=15
+font-2 = Noto Color Emoji:size=12
+font-3 = FontAwesome5Free:style=Solid:size=12
+
 modules-left = i3
 modules-center = filesystem date battery
-modules-right = temperature cpu memory wlan
+modules-right = temperature cpu memory volume
 
 tray-position = right
 tray-padding = 2
-;tray-background = #0063ff
 
 cursor-click = pointer
 cursor-scroll = ns-resize
+
+; }}}
+
+;{{{ bar/main
+
+[bar/main]
+monitor = ${env:MONITOR:eDP-1}
+inherit = bar/base
+
+; }}}
+
+;{{{ bar/mainMultiple
+
+[bar/mainMultiple]
+monitor = ${env:MONITOR:eDP-1-1}
+inherit = bar/base
 
 ; }}}
 
@@ -69,41 +84,7 @@ cursor-scroll = ns-resize
 
 [bar/hdmi]
 monitor = ${env:MONITOR:HDMI-0}
-width = 100%
-height = 27
-fixed-center = false
-
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-; line below workspaces
-line-size = 3
-line-color = #f00
-
-; border for the bar
-border-size = 3
-border-color = #000
-
-padding-left = 0
-padding-right = 2
-
-module-margin-left = 1
-module-margin-right = 2
-
-font-0 = siji:pixelsize=12;1
-font-1 = FuraCode Nerd Font:pixelsize=10;1
-font-2 = Noto Color Emoji:pixelsize=4
-font-3 = FontAwesome5Free:style=Solid:size=10;4 
-modules-left = i3
-modules-center = filesystem date battery
-modules-right = temperature cpu memory wlan
-
-tray-position = right
-tray-padding = 2
-;tray-background = #0063ff
-
-cursor-click = pointer
-cursor-scroll = ns-resize
+inherit = bar/base
 
 ; }}}
 
@@ -111,41 +92,7 @@ cursor-scroll = ns-resize
 
 [bar/displayPort]
 monitor = ${env:MONITOR:DP-2}
-width = 100%
-height = 30
-fixed-center = true
-
-background = ${colors.background}
-foreground = ${colors.foreground}
-
-; line below workspaces
-line-size = 2
-line-color = #f00
-
-; border for the bar
-border-size = 0
-border-color = #000
-
-padding-left = 0
-padding-right = 2
-
-module-margin-left = 1
-module-margin-right = 2
-
-font-0 = siji:pixelsize=12;1
-font-1 = FuraCode Nerd Font:pixelsize=10;1
-font-2 = Noto Color Emoji:pixelsize=4
-font-3 = FontAwesome5Free:style=Solid:size=10
-modules-left = i3
-modules-center = filesystem date battery
-modules-right = temperature cpu memory wlan
-
-tray-position = right
-tray-padding = 2
-;tray-background = #0063ff
-
-cursor-click = pointer
-cursor-scroll = ns-resize
+inherit = bar/base
 
 ; }}}
 
@@ -182,21 +129,20 @@ label-unmounted-foreground = ${colors.foreground-alt}
 ;{{{ module/i3
 
 [module/i3]
-label-format = %index%:%icon%
+label-format = %index%: %icon%
 
 type = internal/i3
 format = <label-state> <label-mode>
 index-sort = true
 wrapping-scroll = false
 
-ws-icon-0 = 1;
-ws-icon-1 = 2;
-ws-icon-2 = 3;聆
-ws-icon-3 = 4;
-ws-icon-4 = 5;ﭮ
-ws-icon-5 = 6;
-ws-icon-default = ﰤ
+ws-icon-0 = 1;
+ws-icon-1 = 2;
+ws-icon-2 = 3;
+ws-icon-3 = 4;
+ws-icon-default = 
 
+label-mode = %mode%
 label-mode-padding = 2
 label-mode-foreground = #fff
 label-mode-background = ${colors.primary}
@@ -224,44 +170,6 @@ label-urgent-padding = 2
 
 ;}}}
 
-;{{{ module/mpd
-
-[module/mpd]
-type = internal/mpd
-format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
-
-icon-prev = 
-icon-stop = 
-icon-play = 
-icon-pause = 
-icon-next = 
-
-label-song-maxlen = 25
-label-song-ellipsis = true
-
-;}}}
-
-;{{{ module/xbacklight
-
-[module/xbacklight]
-type = internal/xbacklight
-
-format = <label> <bar>
-label = Bright: %percentage%%
-
-bar-width = 10
-bar-indicator = |
-bar-indicator-foreground = #fff
-bar-indicator-font = 2
-bar-fill = ─
-bar-fill-font = 2
-bar-fill-foreground = #9f78e1
-bar-empty = ─
-bar-empty-font = 2
-bar-empty-foreground = ${colors.foreground-alt}
-
-;}}}
-
 ;{{{ module/cpu
 
 [module/cpu]
@@ -269,7 +177,7 @@ underline = #f90000
 
 type = internal/cpu
 interval = 2
-format-prefix = " CPU "
+format-prefix = " CPU: "
 format-prefix-foreground = ${self.underline}
 format-underline = ${self.underline}
 label = %percentage:2%%
@@ -283,11 +191,11 @@ underline = #4bffdc
 
 type = internal/memory
 interval = 2
-format-prefix = " RAM "
+format-prefix = " RAM: "
 format-prefix-foreground = ${self.underline}
 format-underline = ${self.underline}
 
-label = "%gb_used% / %gb_total%"
+label = "%percentage_used:2%%"
 
 ;}}}
 
@@ -297,21 +205,21 @@ label = "%gb_used% / %gb_total%"
 underline = #9f78e1
 
 type = internal/network
-interface = wlp7s0
+interface = wlp0s20f3
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
 format-connected-underline = ${self.underline}
 label-connected = %essid%
 
-formt-disconnected =
+;format-disconnected = Disconected
 ;format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
-ramp-signal-0 = 直
-ramp-signal-1 = 直
+ramp-signal-0 = 
+ramp-signal-1 = 
 ramp-signal-2 = 
 ramp-signal-foreground = ${self.underline}
 
@@ -325,15 +233,13 @@ underline = #203dcc
 type = internal/date
 interval = 5
 
-date = %Y-%m-%d%
+date = %a %e %b | %I:%M
 
-time = %r
-
-format-prefix = " "
+format-prefix = " "
 format-prefix-foreground = ${self.underline}
 format-underline = ${self.underline}
 
-label = %date% | %time%
+label = %date%
 
 ;}}}
 
@@ -342,41 +248,79 @@ label = %date% | %time%
 [module/battery]
 type = internal/battery
 battery = BAT0
-adapter = ADP0
+adapter = ADP1
 full-at = 98
 
 format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
 
-format-discharging = <animation-discharging> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
+format-discharging = <ramp-capacity> <label-discharging>
 
-format-full-prefix = " "
-format-full-prefix-foreground = ${self.format-charging-underline}
-format-full-underline = ${self.format-charging-underline}
+format-full = <ramp-capacity> <label-full>
 
+label-charging = %percentage:%%
+
+label-discharging = %percentage%%
+
+; Only applies if <ramp-capacity> is used
 ramp-capacity-0 = 
 ramp-capacity-1 = 
 ramp-capacity-2 = 
 ramp-capacity-3 = 
 ramp-capacity-4 = 
-ramp-capacity-foreground = ${self.format-charging-underline}
+ramp-capacity-foreground = #ffb52a
 
+; Only applies if <bar-capacity> is used
+bar-capacity-width = 10
+
+; Only applies if <animation-charging> is used
 animation-charging-0 = 
 animation-charging-1 = 
 animation-charging-2 = 
 animation-charging-3 = 
 animation-charging-4 = 
-animation-charging-foreground = ${self.format-charging-underline}
-animation-charging-framerate = 750
+animation-charging-foreground = #ffb52a
 
-animation-discharging-0 = 
-animation-discharging-1 = 
-animation-discharging-2 = 
-animation-discharging-3 = 
-animation-discharging-4 = 
-animation-discharging-foreground = ${self.format-charging-underline}
-animation-discharging-framerate = 750
+; Framerate in milliseconds
+animation-charging-framerate = 750
+
+format-charging-underline = #ffb52a
+format-discharging-underline = #ffb52a
+format-full-underline = #ffb52a
+
+;}}}
+
+;{{{ module/volume
+
+[module/volume]
+type = internal/pulseaudio
+
+format-volume = <label-volume> <bar-volume>
+
+label-volume =  %percentage%%
+label-volume-foreground = ${colors.foreground}
+label-muted =  Muted
+label-muted-foreground = #55
+
+bar-volume-width = 5
+bar-volume-foreground-0 = #55aa55
+bar-volume-foreground-1 = #55aa55
+bar-volume-foreground-2 = #55aa55
+bar-volume-foreground-3 = #55aa55
+bar-volume-foreground-4 = #55aa55
+bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-6 = #ff5555
+bar-volume-gradient = false
+bar-volume-indicator = 
+bar-volume-indicator-font = 2
+bar-volume-indicator-foreground = ${colors.foreground}
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = #55
+
+format-volume-underline = #9f78e1
 
 ;}}}
 
@@ -387,16 +331,19 @@ type = internal/temperature
 thermal-zone = 0
 warn-temperature = 60
 
-format = <label>
-format-prefix = " "
-format-prefix-foreground = ${self.format-underline}
+format = <ramp> <label>
 format-underline = #086ACC
-format-warn = <label-warn>
-format-warn-underline = ${self.format-underline}
+format-warn = <ramp> <label-warn>
+format-warn-underline = #086ACC
 
-label = %temperature-c%
-label-warn = %temperature-c%
+label = %temperature%
+label-warn = %temperature%
 label-warn-foreground = ${colors.secondary}
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-foreground = #086ACC
 
 ;}}}
 

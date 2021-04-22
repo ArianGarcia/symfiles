@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/ariang/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -105,3 +105,8 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 
 # Adds dotnet tools to the PATH variable
 export PATH="$PATH:/home/[[USER_NAME]]/.dotnet/tools"
+export PATH="$PATH:~/azuredatastudio-linux-x64"
+export PATH="$PATH:~/azuredatastudio-linux-x64"
+
+# Launch NeoFetch on Terminal launch
+uwufetch
