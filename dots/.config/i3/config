@@ -1,4 +1,5 @@
 # i3 config file
+#
 
 ###########################
 #####     GENERAL     #####
@@ -18,7 +19,7 @@ font pango:FuraCode Nerd Font 11, FontAwesome 9
 for_window [class="^.*"] border pixel 3
 
 # Set window focus
-#focus_follows_mouse no
+focus_follows_mouse no
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -153,21 +154,21 @@ bindsym $mod+0 mode "$mode_system"
 set $Locker exec ~/.config/i3lock-fancy-multimonitor/lock
 
 set $mode_system\
- (l) lock,\
+ System (l) lock,\
  (e) logout,\
  (s) suspend,\
  (r) reboot,\
  (Shift+s) shutdown
 
 mode "$mode_system" {
-    bindsym l exec --no-startup-id $Locker, mode "default"
-    bindsym e exec --no-startup-id i3-msg exit, mode "default"
-    bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
-    bindsym r exec --no-startup-id systemctl reboot, mode "default"
-    bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
-    # back to normal: Enter or Escape
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+        bindsym l exec --no-startup-id $Locker, mode "default"
+        bindsym e exec --no-startup-id i3-msg exit, mode "default"
+        bindsym s exec --no-startup-id $Locker && systemctl suspend, mode "default"
+        bindsym r exec --no-startup-id systemctl reboot, mode "default"
+        bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
 }
 
 # Resize window (you can also use the mouse for that)
@@ -225,8 +226,11 @@ bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # Change tilling direction
-bindsym $mod+h split h # split in horizontal orientation
-bindsym $mod+v split v # split in vertical orientation
+  # split in horizontal orientation
+  bindsym $mod+h split h
+  
+  # split in vertical orientation
+  bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -249,13 +253,13 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # Lock screen
-bindsym $mod+Escape $Locker
+bindsym $mod+l+l $Locker
 
 # start a terminal
 bindsym $mod+Return exec termite
 
 # Dmenu
-bindsym $mod+d exec  "rofi   -show-icons  -drun-icon-theme -combi-modi window,drun -show combi -modi combi"
+bindsym $mod+d exec  "rofi -show-icons -drun-icon-theme -combi-modi window,drun -show combi -modi combi"
 
 # Create full desktop screen shot
 bindsym Print exec --no-startup-id i3-scrot;exec notify-send 'Full screen shot'
@@ -278,11 +282,11 @@ client.urgent #2f343a #900000 #ffffff #900000c
 #############################
 
 # Wallpaper
-set $wallpaperImage ~/Pictures/Wallpapers/Wallpaper.jpg
-exec --no-startup-id feh --bg-scale $wallpaperImage
+set $wallpaperImage ~/Pictures/Wallpapers/88US2hj.jpg
+exec --no-startup-id feh --bg-scale $wallpaperImage $wallpaperImage $wallpaperImage
 
 # Set screens layout
-xrandr --output DP-2 --primary --mode 2560x1080 --pos 1920x0 --rotate normal --output eDP-1-1 --mode 1920x1080 --pos 0x0 --rotate normal
+exec --no-startup-id xrandr --output eDP-1-1 --mode 1920x1080 --pos 0x644 --rotate normal --output HDMI-0 --mode 1920x1080 --pos 3840x0 --rotate left --output DP-3 --primary --mode 1920x1080 --pos 1920x644 --rotate normal
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
@@ -294,6 +298,8 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- exec ~/.config/i3lock-fan
 # NetworkManager is the most popular way to manage wireless networks on Linux,
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
+
+# Sreen brightness controls
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status

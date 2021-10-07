@@ -110,3 +110,8 @@ export PATH="$PATH:~/azuredatastudio-linux-x64"
 
 # Launch NeoFetch on Terminal launch
 uwufetch
+
+#My custom aliases
+alias gbp="git for-each-ref --format '%(refname:short)' refs/heads | grep -v main | grep -v master | xargs git branch -D"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
